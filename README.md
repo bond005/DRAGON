@@ -14,11 +14,40 @@ The whole pipeline of the benchmark architecture can be explored in the followin
     <img src="./static/images/dragon_pipeline.png" width="360px" />
 </p>
 
-### Client library
+### Datasets
 
-The client library, located in `lib/`, provides tools to benchmark RAG pipelines.
+Our QA datasets are available on Hugging Face:
 
-//TBD
+- [ai-forever/hist-rag-bench-public-questions](https://huggingface.co/datasets/ai-forever/hist-rag-bench-public-questions)
+- [ai-forever/hist-rag-bench-public-texts](https://huggingface.co/datasets/ai-forever/hist-rag-bench-public-texts)
+- [ai-forever/hist-rag-bench-private-qa](https://huggingface.co/datasets/ai-forever/hist-rag-bench-private-qa)
+- [ai-forever/hist-rag-bench-private-texts](https://huggingface.co/datasets/ai-forever/hist-rag-bench-private-texts)
+
+Datasets are updated once a month. To get the list of version programmatically you can use the following snippet:
+
+```python
+from huggingface_hub import list_repo_refs
+
+def get_ds_versions(repo_id):
+    repo_refs = list_repo_refs(repo_id, repo_type="dataset")
+    return [ref.name for ref in repo_refs.tags]
+
+#['1.13.0',
+# '1.12.0',
+#  ...
+#  '1.0.0'
+#]
+```
+
+Version 1.13.0 refers to October 2025, 1.12.0 — to September 2025, etc.
+
+You can load a specific version of dataset:
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset('ai-forever/hist-rag-bench-private-qa', revision="1.13.0")
+```
 
 ### QA dataset generation pipeline
 
